@@ -1,0 +1,17 @@
+﻿<Page
+    x:Class="DimSketch.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DimSketch"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:DimSketch.Xaml.Controls"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:Tablet3DViewPanel x:Name="volumePanel"/>
+        <InkCanvas x:Name="SketchCanvas"></InkCanvas>
+        <Slider Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10" SmallChange="0.01" LargeChange="0.1" Padding="-6,0" Maximum="1" Minimum="0" Value="0.5"></Slider>
+        <AppBarButton Icon="Camera" Background="{ThemeResource SystemControlForegroundAccentBrush}"></AppBarButton>
+    </Grid>
+</Page>

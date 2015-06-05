@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{fa6a6f26-c034-4538-a5a2-4bd36c0930bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{e6a1d7ec-8fdd-45e2-9cd5-0e6c3d41318d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="DimSketchTablet3DPanel.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="DirectXPanel.cpp" />
+    <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="Texture.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTextureEffect.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="RampEffect.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DimSketchTablet3DPanel.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="DirectXPanel.h" />
+    <ClInclude Include="Panel.h" />
+    <ClInclude Include="Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="StepTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextureEffect.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RampEffect.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXHelper.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="RenderTextureGS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RenderTexturePS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RenderTextureVS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RampEffectGS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RampEffectPS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RampEffectVS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RampPS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="RampVS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
