@@ -30,9 +30,9 @@
     <ClCompile Include="Effect.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="DDSTextureLoader.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
+    <ClCompile Include="PrimitiveVisualizer.cpp" />
+    <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="DXGIFormatHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DimSketchTablet3DPanel.h" />
@@ -67,9 +67,10 @@
     <ClInclude Include="DirectXHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="DDSTextureLoader.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
+    <ClInclude Include="PrimitiveVisualizer.h" />
+    <ClInclude Include="DirectXMathExtend.h" />
+    <ClInclude Include="Textures.h" />
+    <ClInclude Include="DXGIFormatHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="RenderTextureGS.hlsl">

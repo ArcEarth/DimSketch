@@ -8,6 +8,7 @@
 #include "Effect.h"
 
 using namespace DimSketch::Xaml::Controls::Base;
+using namespace DirectX;
 
 Effect::Effect()
 {
@@ -20,11 +21,11 @@ void Effect::InitializeVS(
     _In_reads_(numInputElementDescs) const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs,
     _In_ UINT numInputElementDescs)
 {
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         pD3DDevice->CreateVertexShader(pVertexShaderByteCode, vertexShaderByteCodeLength, nullptr, &_vertexShader)
         );
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         pD3DDevice->CreateInputLayout(pInputElementDescs, numInputElementDescs, pVertexShaderByteCode, vertexShaderByteCodeLength, &_inputLayout)
         );
 }
@@ -34,7 +35,7 @@ void Effect::InitializePS(
     _In_reads_bytes_(pixelShaderByteCodeLength) const void* pPixelShaderByteCode,
     _In_ SIZE_T pixelShaderByteCodeLength)
 {
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         pD3DDevice->CreatePixelShader(pPixelShaderByteCode, pixelShaderByteCodeLength, nullptr, &_pixelShader)
         );
 }

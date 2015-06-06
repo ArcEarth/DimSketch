@@ -12,7 +12,7 @@
 using namespace Windows::Storage::Streams;
 
 // Helper utilities for DirectX apps.
-namespace DX
+namespace DirectX
 {
     inline void ThrowIfFailed(HRESULT hr)
     {
@@ -91,7 +91,7 @@ namespace DX
     public:
         D2DFactoryLock(_In_ ID2D1Factory* d2dFactory)
         {
-            DX::ThrowIfFailed(
+            ThrowIfFailed(
                 d2dFactory->QueryInterface(IID_PPV_ARGS(&m_d2dMultithread))
                 );
 

@@ -31,5 +31,10 @@ namespace DimSketch
             //var panel = new DimSketch.Xaml.Controls.TestingPanel();
             //RootGrid.Children.Insert(0,panel);
         }
+
+        private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            volumePanel.CameraDepth = (float)e.NewValue;
+        }
     }
 }

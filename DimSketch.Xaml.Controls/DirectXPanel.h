@@ -72,7 +72,7 @@ namespace DimSketch {
                     DXGI_ALPHA_MODE                                 _alphaMode;
 
                     // Rendering loop timer.
-                    DX::StepTimer                                   _timer;
+                    DirectX::StepTimer								_timer;
                     Windows::Foundation::IAsyncAction^              _renderLoopWorker;
 
                     float                                           _renderTargetHeight;

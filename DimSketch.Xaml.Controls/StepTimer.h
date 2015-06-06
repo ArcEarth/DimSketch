@@ -8,7 +8,7 @@
 
 #include <wrl.h>
 
-namespace DX
+namespace DirectX
 {
     // Helper for animation and simulation timing.
     class StepTimer

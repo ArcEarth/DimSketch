@@ -8,8 +8,9 @@
 
 #include "DirectXPanel.h"
 #include "StepTimer.h"
-#include "Texture.h"
+//#include "Texture.h"
 #include "RenderTextureEffect.h"
+#include "Textures.h"
 
 namespace DimSketch {
     namespace Xaml {
@@ -42,8 +43,8 @@ namespace DimSketch {
 
                     // presents the final SRV as the render to the panel
                     void BeginRender(_In_opt_ ID3D11RenderTargetView* pRTV, _In_opt_ ID3D11DepthStencilView* pDSV, _In_opt_ const float* pColor);
-                    void RenderTexture(_In_ Texture^ renderTexture);
-                    void RenderTextureToSize(_In_ Texture^ renderTexture, UINT targetWidth, UINT targetHeight);
+                    //void RenderTexture(_In_ Texture^ renderTexture);
+                    //void RenderTextureToSize(_In_ Texture^ renderTexture, UINT targetWidth, UINT targetHeight);
                     void RenderPanel();
                     void EndRender();
 
@@ -63,6 +64,7 @@ namespace DimSketch {
 
                 protected private:
                     // final stage render objects
+					Microsoft::WRL::ComPtr<ID3D11Texture2D>				_backBuffer;
                     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>      _backBufferRTV;
                     Microsoft::WRL::ComPtr<ID3D11DepthStencilView>      _backBufferDSV;
 
@@ -73,7 +75,7 @@ namespace DimSketch {
                     Concurrency::critical_section                       _inputLock;
 
                     // render texture shader
-                    RenderTextureEffect^       _renderTextureEffect;
+                    RenderTextureEffect^								_renderTextureEffect;
 
                     Windows::UI::Core::CoreIndependentInputSource^      _coreInput;
                     Windows::UI::Input::GestureRecognizer^              _gestureRecognizer;
@@ -92,6 +94,10 @@ namespace DimSketch {
                     Windows::Foundation::EventRegistrationToken         _pointerMovedToken;
                     Windows::Foundation::EventRegistrationToken         _pointerReleasedToken;
                     Windows::Foundation::EventRegistrationToken         _pointerWheelChangedToken;
+
+					RenderTarget										_renderTarget;
+					RenderTargetTexture2D								_colorBuffer;
+					DepthStencilBuffer									_depthBuffer;
                 };
 
             }

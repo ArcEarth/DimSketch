@@ -63,7 +63,7 @@ void Texture::Initialize(
     Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
     if (_useStaging)
     {
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             pD3DDevice->CreateTexture2D(&texDesc, nullptr, &stagingTexture)
             );
 
@@ -73,12 +73,12 @@ void Texture::Initialize(
    }
 
     Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         pD3DDevice->CreateTexture2D(&texDesc, nullptr, &texture)
         );
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         pD3DDevice->CreateShaderResourceView(texture.Get(), nullptr, &srv)
         );
 

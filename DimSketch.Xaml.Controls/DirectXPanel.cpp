@@ -88,7 +88,7 @@ void DirectXPanel::CreateDeviceIndependentResources()
     options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
 #endif
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         D2D1CreateFactory(
         D2D1_FACTORY_TYPE_SINGLE_THREADED,
         __uuidof(ID2D1Factory2),
@@ -119,7 +119,7 @@ void DirectXPanel::CreateDeviceResources()
     UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
 #if defined(_DEBUG)
-    if (DX::SdkLayersAvailable())
+    if (SdkLayersAvailable())
     {
         // If the project is in a debug build, enable debugging via SDK Layers with this flag.
         creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -153,7 +153,7 @@ void DirectXPanel::CreateDeviceResources()
         &context)))
     {
         // try to create WARP device if hardware is not capable, or when forced to create WARP device
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             D3D11CreateDevice(nullptr,
             D3D_DRIVER_TYPE_WARP,
             nullptr,
@@ -168,12 +168,12 @@ void DirectXPanel::CreateDeviceResources()
     }
 
     // Get D3D11.2 device
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         device.As(&_d3dDevice)
         );
 
     // Get D3D11.2 context
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         context.As(&_d3dContext)
         );
 
@@ -182,17 +182,17 @@ void DirectXPanel::CreateDeviceResources()
 
     // Get underlying DXGI device of D3D device
     ComPtr<IDXGIDevice> dxgiDevice;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _d3dDevice.As(&dxgiDevice)
         );
 
     // Get D2D device
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _d2dFactory->CreateDevice(dxgiDevice.Get(), &_d2dDevice)
         );
 
     // Get D2D context
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &_d2dContext)
         );
 
@@ -239,7 +239,7 @@ void DirectXPanel::CreateSizeDependentResources()
         }
         else
         {
-            DX::ThrowIfFailed(hr);
+            ThrowIfFailed(hr);
         }
     }
     else // Otherwise, create a new one.
@@ -259,25 +259,25 @@ void DirectXPanel::CreateSizeDependentResources()
 
         // Get underlying DXGI Device from D3D Device.
         ComPtr<IDXGIDevice1> dxgiDevice;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             _d3dDevice.As(&dxgiDevice)
             );
 
         // Get adapter.
         ComPtr<IDXGIAdapter> dxgiAdapter;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiDevice->GetAdapter(&dxgiAdapter)
             );
 
         // Get factory.
         ComPtr<IDXGIFactory2> dxgiFactory;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory))
             );
 
         ComPtr<IDXGISwapChain1> swapChain;
         // Create swap chain.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiFactory->CreateSwapChainForComposition(_d3dDevice.Get(), &swapChainDesc, nullptr, &swapChain)
             );
 
@@ -286,7 +286,7 @@ void DirectXPanel::CreateSizeDependentResources()
         // Ensure that DXGI does not queue more than one frame at a time. This both reduces 
         // latency and ensures that the application will only render after each VSync, minimizing 
         // power consumption.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiDevice->SetMaximumFrameLatency(1)
             );
 
@@ -294,12 +294,12 @@ void DirectXPanel::CreateSizeDependentResources()
         {
             //Get backing native interface for SwapChainPanel.
             ComPtr<ISwapChainPanelNative> panelNative;
-            DX::ThrowIfFailed(
+            ThrowIfFailed(
                 reinterpret_cast<IUnknown*>(this)->QueryInterface(IID_PPV_ARGS(&panelNative))
                 );
 
             // Associate swap chain with SwapChainPanel.  This must be done on the UI thread.
-            DX::ThrowIfFailed(
+            ThrowIfFailed(
                 panelNative->SetSwapChain(_swapChain.Get())
                 );
         }, CallbackContext::Any));
@@ -325,12 +325,12 @@ void DirectXPanel::CreateSizeDependentResources()
 
     // Direct2D needs the DXGI version of the backbuffer surface pointer.
     ComPtr<IDXGISurface> dxgiBackBuffer;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer))
         );
 
     // Get a D2D surface from the DXGI back buffer to use as the D2D render target.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _d2dContext->CreateBitmapFromDxgiSurface(dxgiBackBuffer.Get(), &bitmapProperties, &_d2dTargetBitmap)
         );
 
@@ -356,7 +356,7 @@ void DirectXPanel::Present()
     }
     else
     {
-        DX::ThrowIfFailed(hr);
+        ThrowIfFailed(hr);
     }
 }
 

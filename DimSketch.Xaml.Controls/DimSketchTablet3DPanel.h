@@ -1,10 +1,19 @@
 ﻿#pragma once
 
 #include "Panel.h"
+#include "PrimitiveVisualizer.h"
 
 namespace DimSketch {
 	namespace Xaml {
 		namespace Controls {
+			namespace Base
+			{
+				struct CameraParam
+				{
+					XMVECTOR Position;
+					XMVECTOR Orientation;
+				};
+			}
 				using namespace DimSketch::Xaml::Controls::Base;
 
 				public ref class Tablet3DViewPanel sealed
@@ -12,6 +21,13 @@ namespace DimSketch {
 				{
 				public:
 					Tablet3DViewPanel();
+
+					property float CameraDepth { 
+						float get() 
+						{ return m_CameraDepth; }
+						void set(float value)
+						{ m_CameraDepth = value;}
+					}
 
 				protected private:
 					virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler^ PropertyChanged;
@@ -31,8 +47,12 @@ namespace DimSketch {
 				private:
 					~Tablet3DViewPanel();
 
+					void DrawAxis();
 				private:
-
+					std::shared_ptr<DirectX::PrimitveDrawer>	 m_pDrawer;
+					float										 m_CameraDepth;
+					DirectX::XMMATRIX							 m_View;
+					DirectX::XMMATRIX							 m_Projection;
 				};
 		}
 	}

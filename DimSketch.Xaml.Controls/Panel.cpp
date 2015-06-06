@@ -8,6 +8,7 @@
 #include "Panel.h"
 #include "DirectXHelper.h"
 #include "shaders.h"
+#include <DirectXColors.h>
 
 using namespace Concurrency;
 using namespace DirectX;
@@ -28,34 +29,37 @@ Panel::Panel()
 
 void Panel::BeginRender(_In_opt_ ID3D11RenderTargetView* pRTV, _In_opt_ ID3D11DepthStencilView* pDSV, _In_opt_ const float* pColor)
 {
-    if (nullptr == pRTV)
-    {
-        pRTV = _backBufferRTV.Get();
-    }
+	_renderTarget.Clear(_d3dContext.Get(),Colors::White);
+	_renderTarget.SetAsRenderTarget(_d3dContext.Get());
+ //   if (nullptr == pRTV)
+ //   {
+ //       pRTV = _backBufferRTV.Get();
+ //   }
 
-    if (nullptr == pDSV)
-    {
-        pDSV = _backBufferDSV.Get();
-    }
+ //   if (nullptr == pDSV)
+ //   {
+ //       pDSV = _backBufferDSV.Get();
+ //   }
 
-    // Set render targets to the screen.
-    _d3dContext->OMSetRenderTargets(1, &pRTV, pDSV);
+ //   // Set render targets to the screen.
+ //   _d3dContext->OMSetRenderTargets(1, &pRTV, pDSV);
 
-    // Clear the back buffer
-    float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    if (nullptr != pColor)
-    {
-        ClearColor[0] = *pColor;
-		ClearColor[1] = pColor[1];
-		ClearColor[2] = pColor[2];
-		ClearColor[3] = pColor[4];
-	}
-    _d3dContext->ClearRenderTargetView(pRTV, ClearColor);
+ //   // Clear the back buffer
+ //   float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+ //   if (nullptr != pColor)
+ //   {
+ //       ClearColor[0] = *pColor;
+	//	ClearColor[1] = pColor[1];
+	//	ClearColor[2] = pColor[2];
+	//	ClearColor[3] = pColor[4];
+	//}
+ //   _d3dContext->ClearRenderTargetView(pRTV, ClearColor);
 
-    // Clear the depth buffer to 1.0 (max depth)
-    _d3dContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
+ //   // Clear the depth buffer to 1.0 (max depth)
+ //   _d3dContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
+/*
 void Panel::RenderTexture(_In_ Texture^ renderTexture)
 {
     RenderTextureToSize(renderTexture, static_cast<UINT>(_renderTargetWidth), static_cast<UINT>(_renderTargetHeight));
@@ -92,7 +96,7 @@ void Panel::RenderTextureToSize(_In_ Texture^ renderTexture, UINT targetWidth, U
 
     RenderPanel();
 }
-
+*/
 void Panel::RenderPanel()
 {
     // Set primitive topology
@@ -112,6 +116,9 @@ void Panel::RenderPanel()
 
 void Panel::EndRender()
 {
+	auto index = D3D11CalcSubresource(0, 0, 1);
+	//_d3dContext->CopyResource(_backBuffer.Get(), _colorBuffer);
+	_d3dContext->ResolveSubresource(_backBuffer.Get(), 0, _colorBuffer, 0, DXGI_FORMAT_B8G8R8A8_UNORM);
     // finalize the render
     Present();
 }
@@ -131,16 +138,16 @@ void Panel::CreateDeviceResources()
 
     // Retrieve DXGIOutput representing the main adapter output.
     ComPtr<IDXGIFactory1> dxgiFactory;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory))
         );
 
     ComPtr<IDXGIAdapter> dxgiAdapter;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         dxgiFactory->EnumAdapters(0, &dxgiAdapter)
         );
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         dxgiAdapter->EnumOutputs(0, &_dxgiOutput)
         );
 
@@ -160,36 +167,24 @@ void Panel::CreateSizeDependentResources()
 
     // Create a render target view of the swap chain back buffer.
     ComPtr<ID3D11Texture2D> backBuffer;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer))
         );
+	_backBuffer = backBuffer;
 
     // Create render target view.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         _d3dDevice->CreateRenderTargetView(backBuffer.Get(), nullptr, &_backBufferRTV)
         );
 
     // Create depth/stencil buffer descriptor.
-    CD3D11_TEXTURE2D_DESC depthStencilDesc(
-        DXGI_FORMAT_D24_UNORM_S8_UINT,
-        static_cast<UINT>(_renderTargetWidth),
-        max(1, static_cast<UINT>(_renderTargetHeight)),
-        1,
-        1,
-        D3D11_BIND_DEPTH_STENCIL);
+	_depthBuffer = DepthStencilBuffer(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_D24_UNORM_S8_UINT,8,0);
+	_backBufferDSV = _depthBuffer.DepthStencilView();
 
-    // Allocate a 2-D surface as the depth/stencil buffer.
-    ComPtr<ID3D11Texture2D> depthStencil;
-    DX::ThrowIfFailed(
-        _d3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &depthStencil)
-        );
-
-    // Create depth/stencil view based on depth/stencil buffer.
-    const CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc
-        = CD3D11_DEPTH_STENCIL_VIEW_DESC(D3D11_DSV_DIMENSION_TEXTURE2D);
-    DX::ThrowIfFailed(
-        _d3dDevice->CreateDepthStencilView(depthStencil.Get(), &depthStencilViewDesc, &_backBufferDSV)
-        );
+	//_colorBuffer = RenderTargetTexture2D(_backBufferRTV.Get());
+	_colorBuffer = RenderTargetTexture2D(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_B8G8R8A8_UNORM, 8, 0);
+	CD3D11_VIEWPORT viewPort(.0f,.0f, _renderTargetWidth, _renderTargetHeight);
+	_renderTarget = RenderTarget(_colorBuffer, _depthBuffer, viewPort);
 
     _loadingComplete = true;
 }

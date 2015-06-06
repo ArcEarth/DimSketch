@@ -8,6 +8,7 @@
 #include "RampEffect.h"
 
 using namespace DimSketch::Xaml::Controls::Base;
+using namespace DirectX;
 
 RampEffect::RampEffect()
     : Effect()
@@ -20,7 +21,7 @@ void RampEffect::Initialize(_In_ ID3D11Device1* const pD3DDevice)
 {
 
     // Asynchronously load vertex shader and create input layout.
-    auto loadVSTask = DX::ReadDataAsync(L"DimSketch.Xaml.Controls\\RampEffectVS.cso");
+    auto loadVSTask = ReadDataAsync(L"DimSketch.Xaml.Controls\\RampEffectVS.cso");
     auto createVSTask = loadVSTask.then([this, pD3DDevice](const std::vector<byte>& fileData) {
 
         static const D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
@@ -33,10 +34,10 @@ void RampEffect::Initialize(_In_ ID3D11Device1* const pD3DDevice)
     });
 
     // Asynchronously load pixel shader and create constant buffer.
-    auto loadGSTask = DX::ReadDataAsync(L"DimSketch.Xaml.Controls\\RampEffectGS.cso");
+    auto loadGSTask = ReadDataAsync(L"DimSketch.Xaml.Controls\\RampEffectGS.cso");
     auto createGSTask = loadGSTask.then([this, pD3DDevice](const std::vector<byte>& fileData) {
 
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             pD3DDevice->CreateGeometryShader(
             &fileData[0],
             fileData.size(),
@@ -46,7 +47,7 @@ void RampEffect::Initialize(_In_ ID3D11Device1* const pD3DDevice)
     });
 
     // Asynchronously load pixel shader and create constant buffer.
-    auto loadPSTask = DX::ReadDataAsync(L"DimSketch.Xaml.Controls\\RampEffectPS.cso");
+    auto loadPSTask = ReadDataAsync(L"DimSketch.Xaml.Controls\\RampEffectPS.cso");
     auto createPSTask = loadPSTask.then([this, pD3DDevice](const std::vector<byte>& fileData) {
 
         Effect::InitializePS(pD3DDevice, &fileData[0], fileData.size());
@@ -61,7 +62,7 @@ void RampEffect::Initialize(_In_ ID3D11Device1* const pD3DDevice)
         CBDesc.Usage = D3D11_USAGE_DYNAMIC;
         CBDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         CBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             pD3DDevice->CreateBuffer(&CBDesc, NULL, &_constantBuffer)
             );
 
@@ -79,7 +80,7 @@ void RampEffect::Initialize(_In_ ID3D11Device1* const pD3DDevice)
         sd.MaxAnisotropy = 16;
         sd.ComparisonFunc = D3D11_COMPARISON_NEVER;
 
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             pD3DDevice->CreateSamplerState(&sd, &_textureSampler)
             );
 
