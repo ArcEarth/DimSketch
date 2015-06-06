@@ -22,41 +22,27 @@ using namespace DimSketch::Xaml::Controls::Base;
 
 Panel::Panel()
     : DirectXPanel()
+	, _muiltiSamplesCount(4)
     , _trackState(InputState::None)
     , _loadingComplete(false)
 {
 }
 
-void Panel::BeginRender(_In_opt_ ID3D11RenderTargetView* pRTV, _In_opt_ ID3D11DepthStencilView* pDSV, _In_opt_ const float* pColor)
+uint32 Panel::MuiltiSamplesCount::get()
 {
-	_renderTarget.Clear(_d3dContext.Get(),Colors::White);
+	return _muiltiSamplesCount;
+}
+
+void Panel::MuiltiSamplesCount::set(uint32 msaaCount) 
+{
+	_muiltiSamplesCount = msaaCount;
+}
+
+
+void Panel::ClearPanel(_In_opt_ FXMVECTOR color)
+{
+	_renderTarget.Clear(_d3dContext.Get(), color);
 	_renderTarget.SetAsRenderTarget(_d3dContext.Get());
- //   if (nullptr == pRTV)
- //   {
- //       pRTV = _backBufferRTV.Get();
- //   }
-
- //   if (nullptr == pDSV)
- //   {
- //       pDSV = _backBufferDSV.Get();
- //   }
-
- //   // Set render targets to the screen.
- //   _d3dContext->OMSetRenderTargets(1, &pRTV, pDSV);
-
- //   // Clear the back buffer
- //   float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
- //   if (nullptr != pColor)
- //   {
- //       ClearColor[0] = *pColor;
-	//	ClearColor[1] = pColor[1];
-	//	ClearColor[2] = pColor[2];
-	//	ClearColor[3] = pColor[4];
-	//}
- //   _d3dContext->ClearRenderTargetView(pRTV, ClearColor);
-
- //   // Clear the depth buffer to 1.0 (max depth)
- //   _d3dContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 /*
@@ -96,7 +82,6 @@ void Panel::RenderTextureToSize(_In_ Texture^ renderTexture, UINT targetWidth, U
 
     RenderPanel();
 }
-*/
 void Panel::RenderPanel()
 {
     // Set primitive topology
@@ -113,19 +98,22 @@ void Panel::RenderPanel()
     ID3D11ShaderResourceView* nullSRV = nullptr;
     _d3dContext->PSSetShaderResources(0, 1, &nullSRV);
 }
+*/
 
-void Panel::EndRender()
+void Panel::Present()
 {
-	auto index = D3D11CalcSubresource(0, 0, 1);
-	//_d3dContext->CopyResource(_backBuffer.Get(), _colorBuffer);
-	_d3dContext->ResolveSubresource(_backBuffer.Get(), 0, _colorBuffer, 0, DXGI_FORMAT_B8G8R8A8_UNORM);
+	if (_muiltiSamplesCount > 1)
+		_d3dContext->ResolveSubresource(_backBuffer, 0, _renderTarget.ColorBuffer(), 0, DXGI_FORMAT_B8G8R8A8_UNORM);
     // finalize the render
-    Present();
+    DirectXPanel::Present();
 }
 
 void Panel::ResetDeviceResources()
 {
     _loadingComplete = false;
+
+	_renderTarget.Reset();
+	_backBuffer.Reset();
 
     DirectXPanel::ResetDeviceResources();
 
@@ -159,32 +147,27 @@ void Panel::CreateDeviceResources()
 void Panel::CreateSizeDependentResources()
 {
     // Clear the previous window size specific context.
-    _backBufferRTV.ReleaseAndGetAddressOf();
-    _backBufferDSV.ReleaseAndGetAddressOf();
 
     // base class create
     DirectXPanel::CreateSizeDependentResources();
 
     // Create a render target view of the swap chain back buffer.
     ComPtr<ID3D11Texture2D> backBuffer;
-    ThrowIfFailed(
-        _swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer))
-        );
-	_backBuffer = backBuffer;
-
-    // Create render target view.
-    ThrowIfFailed(
-        _d3dDevice->CreateRenderTargetView(backBuffer.Get(), nullptr, &_backBufferRTV)
-        );
+	_backBuffer = RenderTargetTexture2D(_swapChain.Get());
 
     // Create depth/stencil buffer descriptor.
-	_depthBuffer = DepthStencilBuffer(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_D24_UNORM_S8_UINT,8,0);
-	_backBufferDSV = _depthBuffer.DepthStencilView();
+	auto depthBuffer = DepthStencilBuffer(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_D24_UNORM_S8_UINT,_muiltiSamplesCount,0);
 
-	//_colorBuffer = RenderTargetTexture2D(_backBufferRTV.Get());
-	_colorBuffer = RenderTargetTexture2D(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_B8G8R8A8_UNORM, 8, 0);
+	RenderTargetTexture2D colorBuffer;
+
+	// if not MSAA, direct render to back buffer
+	if (_muiltiSamplesCount == 1)
+		colorBuffer = _backBuffer;
+	else
+		colorBuffer = RenderTargetTexture2D(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_B8G8R8A8_UNORM, _muiltiSamplesCount, 0);
+
 	CD3D11_VIEWPORT viewPort(.0f,.0f, _renderTargetWidth, _renderTargetHeight);
-	_renderTarget = RenderTarget(_colorBuffer, _depthBuffer, viewPort);
+	_renderTarget = RenderTarget(colorBuffer, depthBuffer, viewPort);
 
     _loadingComplete = true;
 }

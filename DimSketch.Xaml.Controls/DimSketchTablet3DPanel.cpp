@@ -14,7 +14,8 @@ using namespace Windows::UI::Xaml::Data;
 DimSketch::Xaml::Controls::Tablet3DViewPanel::Tablet3DViewPanel()
 	: Panel()
 {
-	m_CameraDepth = 5.0f;
+	m_SurfacePositon = Vector3(0,0,5.0f);
+	m_pOriSensor = Windows::Devices::Sensors::OrientationSensor::GetDefault();
 }
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::NotifyPropertyChanged(Platform::String ^ prop)
@@ -24,29 +25,34 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::NotifyPropertyChanged(Platfor
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::Update(double elapsedTime)
 {
+	if (m_pOriSensor)
+	{
+		auto reading = m_pOriSensor->GetCurrentReading();
+		auto rq = reading->Quaternion;
+		DirectX::Quaternion q(rq->X, rq->Y, rq->Z, rq->W);
+	}
 	//Panel::Update(elapsedTime);
 }
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::Render()
 {
-	BeginRender(nullptr, nullptr, DirectX::Colors::White.f);
+	ClearPanel(DirectX::Colors::Orange);
 
-	// bind viewport the size of the control
-	//const D3D11_VIEWPORT backBufferView = CD3D11_VIEWPORT(0.0f, 0.0f, _renderTargetWidth, _renderTargetHeight);
-	//_d3dContext->RSSetViewports(1, &backBufferView);
+	//XMMATRIX world = XMMatrixIdentity();
+	XMVECTOR campos = XMVectorSet(0,1,10,0);
 
-	XMMATRIX world = XMMatrixIdentity();
-	XMVECTOR campos = XMVectorSet(0, m_CameraDepth, m_CameraDepth, 0);
-	XMMATRIX view = XMMatrixLookAtRH(campos, g_XMZero.v, g_XMIdentityR1.v);
-	float aspect = _renderTargetWidth / _renderTargetHeight;
-	XMMATRIX proj = XMMatrixPerspectiveFovRH(XMConvertToRadians(75), aspect, 0.01f, 100.f);
+	XMVECTOR forward = XMVector3Rotate(g_XMNegIdentityR2.v, m_SurfaceOrientation);
+	XMVECTOR up = XMVector3Rotate(g_XMIdentityR1.v, m_SurfaceOrientation);
+	campos += forward * CameraDepth;
+
+	XMMATRIX view = XMMatrixLookToRH(campos, forward, up);
 
 	m_pDrawer->SetView(view);
-	m_pDrawer->SetProjection(proj);
+	m_pDrawer->SetProjection(m_Projection);
 
 	DrawAxis();
 
-	EndRender();
+	Present();
 }
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::ResetDeviceResources()
@@ -64,6 +70,9 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::CreateDeviceResources()
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::CreateSizeDependentResources()
 {
 	Panel::CreateSizeDependentResources();
+	float aspect = _renderTargetWidth / _renderTargetHeight;
+	m_Projection = XMMatrixPerspectiveFovRH(XMConvertToRadians(75), aspect, 0.01f, 100.f);
+
 }
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::StartRenderLoop()

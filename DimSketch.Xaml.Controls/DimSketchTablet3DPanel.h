@@ -24,9 +24,13 @@ namespace DimSketch {
 
 					property float CameraDepth { 
 						float get() 
-						{ return m_CameraDepth; }
+						{ 
+							return m_SurfacePositon.z;
+						}
 						void set(float value)
-						{ m_CameraDepth = value;}
+						{
+							m_SurfacePositon.z = value;
+						}
 					}
 
 				protected private:
@@ -49,10 +53,13 @@ namespace DimSketch {
 
 					void DrawAxis();
 				private:
+					Windows::Devices::Sensors::OrientationSensor^m_pOriSensor;
+
 					std::shared_ptr<DirectX::PrimitveDrawer>	 m_pDrawer;
-					float										 m_CameraDepth;
-					DirectX::XMMATRIX							 m_View;
-					DirectX::XMMATRIX							 m_Projection;
+					DirectX::Vector3							 m_SurfacePositon;
+					DirectX::Quaternion							 m_SurfaceOrientation;
+					DirectX::Matrix4x4							 m_View;
+					DirectX::Matrix4x4							 m_Projection;
 				};
 		}
 	}

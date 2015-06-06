@@ -152,6 +152,11 @@ namespace DirectX{
 			return m_pShaderResourceView.Get();
 		}
 
+		void Reset() { 
+			m_pResource.Reset(); 
+			m_pShaderResourceView.Reset();
+		}
+
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11Resource>				m_pResource;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	m_pShaderResourceView;
@@ -282,6 +287,8 @@ namespace DirectX{
 		Texture2D(ID3D11ShaderResourceView* pResourceView);
 		Texture2D();
 
+		void Reset() { m_pTexture.Reset(); Texture::Reset(); }
+
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11Texture2D>	m_pTexture;
 		D3D11_TEXTURE2D_DESC					m_Description;
@@ -360,6 +367,11 @@ namespace DirectX{
 			pDeviceContext->ClearRenderTargetView(m_pRenderTargetView.Get(),reinterpret_cast<const float*>(&Color));
 		}
 
+		void Reset() {
+			m_pRenderTargetView.Reset();
+			Texture2D::Reset();
+		}
+
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>			m_pRenderTargetView;
 	};
@@ -429,6 +441,12 @@ namespace DirectX{
 		operator ID3D11ShaderResourceView* () = delete;
 		ID3D11ShaderResourceView* ShaderResourceView() = delete;
 
+		void Reset() {
+			m_pDepthStencilView.Reset();
+			Texture2D::Reset();
+		}
+
+
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>			m_pDepthStencilView;
 	};
@@ -478,6 +496,11 @@ namespace DirectX{
 		/// <param name="pDeviceContext">The pointer to device context.</param>
 		/// <param name="pDepthStencil">The pointer to depth stencil view.</param>
 		void SetAsRenderTarget(ID3D11DeviceContext* pDeviceContext) override;
+
+		void Reset() {
+			m_ColorBuffer.Reset();
+			m_DepthStencilBuffer.Reset();
+		}
 
 	private:
 		RenderTargetTexture2D									m_ColorBuffer;

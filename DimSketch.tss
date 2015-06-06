@@ -2,10 +2,53 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch\App.xaml.cs</string>
+      <string>d:\user\yupeng\documents\github\dimsketch\dimsketch\app.xaml.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>DimSketch\DimSketch.csproj</string>
+      <string>d:\user\yupeng\documents\github\dimsketch\dimsketch\mainpage.xaml</string>
+      <string>d:\user\yupeng\documents\github\dimsketch\dimsketch\mainpage.xaml.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Panel.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Panel.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DirectXPanel.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DirectXPanel.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Textures.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Textures.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DXGIFormatHelper.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DXGIFormatHelper.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DirectXHelper.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\SDKs\DirectXTK\Inc\WICTextureLoader.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\StepTimer.h</string>
+    </ArrayOfString>
+  </ArrayOfArrayOfString>
+  <ArrayOfArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DimSketchTablet3DPanel.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DimSketchTablet3DPanel.h</string>
+    </ArrayOfString>
+  </ArrayOfArrayOfString>
+  <ArrayOfArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\RenderTextureEffect.cpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Effect.cpp</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\RampEffect.cpp</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

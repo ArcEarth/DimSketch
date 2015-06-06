@@ -28,6 +28,8 @@ namespace DimSketch {
                     void Start() { StartRenderLoop(); }
                     void Stop() { StopRenderLoop(); }
 
+					property uint32 MuiltiSamplesCount {uint32 get(); void set(uint32 msaaCount);}
+
                 private protected:
                     Panel();
 
@@ -42,11 +44,8 @@ namespace DimSketch {
                     virtual void StopRenderLoop() override;
 
                     // presents the final SRV as the render to the panel
-                    void BeginRender(_In_opt_ ID3D11RenderTargetView* pRTV, _In_opt_ ID3D11DepthStencilView* pDSV, _In_opt_ const float* pColor);
-                    //void RenderTexture(_In_ Texture^ renderTexture);
-                    //void RenderTextureToSize(_In_ Texture^ renderTexture, UINT targetWidth, UINT targetHeight);
-                    void RenderPanel();
-                    void EndRender();
+                    void ClearPanel(_In_opt_ DirectX::FXMVECTOR color);
+                    void Present() override;
 
                 private:
                     // process input events
@@ -64,13 +63,12 @@ namespace DimSketch {
 
                 protected private:
                     // final stage render objects
-					Microsoft::WRL::ComPtr<ID3D11Texture2D>				_backBuffer;
-                    Microsoft::WRL::ComPtr<ID3D11RenderTargetView>      _backBufferRTV;
-                    Microsoft::WRL::ComPtr<ID3D11DepthStencilView>      _backBufferDSV;
+					RenderTargetTexture2D								_backBuffer;
 
                 private:
                     BOOL                                                _loadingComplete;
 
+					uint32												_muiltiSamplesCount;
                     // Track our independent input on a background worker thread.
                     Concurrency::critical_section                       _inputLock;
 
@@ -96,8 +94,6 @@ namespace DimSketch {
                     Windows::Foundation::EventRegistrationToken         _pointerWheelChangedToken;
 
 					RenderTarget										_renderTarget;
-					RenderTargetTexture2D								_colorBuffer;
-					DepthStencilBuffer									_depthBuffer;
                 };
 
             }
