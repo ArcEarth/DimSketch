@@ -209,6 +209,8 @@ void DirectXPanel::CreateSizeDependentResources()
         CreateDeviceResources();
     }
 
+	auto format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
     // Ensure dependent objects have been released.
     _d2dContext->SetTarget(nullptr);
     _d2dTargetBitmap = nullptr;
@@ -223,12 +225,13 @@ void DirectXPanel::CreateSizeDependentResources()
     // If the swap chain already exists, then resize it.
     if (nullptr != _swapChain)
     {
+		UINT w = max(1, static_cast<UINT>(_renderTargetWidth));
+		UINT h = max(1, static_cast<UINT>(_renderTargetHeight));
         HRESULT hr = _swapChain->ResizeBuffers(
-            2,
-            static_cast<UINT>(_renderTargetWidth),
-            max(1, static_cast<UINT>(_renderTargetHeight)),
-            DXGI_FORMAT_B8G8R8A8_UNORM,
-            0
+            2, //Buffers = 2 , Double-buffer
+            w,h, // new size
+			DXGI_FORMAT_UNKNOWN, // Set this value to DXGI_FORMAT_UNKNOWN to preserve the existing format of the back buffer
+            0 // Flags
             );
 
         if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
@@ -247,7 +250,7 @@ void DirectXPanel::CreateSizeDependentResources()
         DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
         swapChainDesc.Width = static_cast<UINT>(_renderTargetWidth);      // Match the size of the panel.
         swapChainDesc.Height = static_cast<UINT>(_renderTargetHeight);
-        swapChainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;                  // This is the most common swap chain format.
+        swapChainDesc.Format = format;                  // This is the most common swap chain format.
         swapChainDesc.Stereo = false;
         swapChainDesc.SampleDesc.Count = 1;                                 // Don't use multi-sampling.
         swapChainDesc.SampleDesc.Quality = 0;

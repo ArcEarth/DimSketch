@@ -147,12 +147,13 @@ void Panel::CreateDeviceResources()
 void Panel::CreateSizeDependentResources()
 {
     // Clear the previous window size specific context.
+	_backBuffer.Reset();
+	_renderTarget.Reset();
 
     // base class create
     DirectXPanel::CreateSizeDependentResources();
 
     // Create a render target view of the swap chain back buffer.
-    ComPtr<ID3D11Texture2D> backBuffer;
 	_backBuffer = RenderTargetTexture2D(_swapChain.Get());
 
     // Create depth/stencil buffer descriptor.

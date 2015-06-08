@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DimSketch", "DimSketch\DimS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DimSketch.Xaml.Controls", "DimSketch.Xaml.Controls\DimSketch.Xaml.Controls.vcxproj", "{223D9C8B-438A-41DB-B0A1-888AABAA0640}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK", "..\..\..\..\..\SDKs\DirectXTK\DirectXTK_Windows10.vcxproj", "{F4776924-619C-42C7-88B2-82C947CCC9E7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK", "..\DirectXTK\DirectXTK_Windows10.vcxproj", "{F4776924-619C-42C7-88B2-82C947CCC9E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

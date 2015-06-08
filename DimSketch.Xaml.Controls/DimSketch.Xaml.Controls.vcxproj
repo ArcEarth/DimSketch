@@ -97,34 +97,34 @@
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
-    <IncludePath>D:\SDKs\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\DirectXTK\Inc;..\..\directxmathext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
-    <IncludePath>D:\SDKs\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\DirectXTK\Inc;..\..\directxmathext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
-    <IncludePath>D:\SDKs\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\DirectXTK\Inc;..\..\directxmathext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
-    <IncludePath>D:\SDKs\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\DirectXTK\Inc;..\..\directxmathext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
-    <IncludePath>D:\SDKs\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\DirectXTK\Inc;..\..\directxmathext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
-    <IncludePath>D:\SDKs\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\DirectXTK\Inc;..\..\directxmathext;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -382,7 +382,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\SDKs\DirectXTK\DirectXTK_Windows10.vcxproj">
+    <ProjectReference Include="..\..\DirectXTK\DirectXTK_Windows10.vcxproj">
       <Project>{f4776924-619c-42c7-88b2-82c947ccc9e7}</Project>
     </ProjectReference>
   </ItemGroup>

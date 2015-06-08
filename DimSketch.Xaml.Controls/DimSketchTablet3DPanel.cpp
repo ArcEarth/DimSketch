@@ -14,7 +14,7 @@ using namespace Windows::UI::Xaml::Data;
 DimSketch::Xaml::Controls::Tablet3DViewPanel::Tablet3DViewPanel()
 	: Panel()
 {
-	m_SurfacePositon = Vector3(0,0,5.0f);
+	m_SurfacePositon = Vector3(0, 1.5f, 1.5f);
 	m_pOriSensor = Windows::Devices::Sensors::OrientationSensor::GetDefault();
 }
 
@@ -25,11 +25,19 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::NotifyPropertyChanged(Platfor
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::Update(double elapsedTime)
 {
-	if (m_pOriSensor)
+	try
 	{
-		auto reading = m_pOriSensor->GetCurrentReading();
-		auto rq = reading->Quaternion;
-		DirectX::Quaternion q(rq->X, rq->Y, rq->Z, rq->W);
+		if (m_pOriSensor)
+		{
+			auto reading = m_pOriSensor->GetCurrentReading();
+			auto rq = reading->Quaternion;
+			DirectX::Quaternion q(rq->X, rq->Z, -rq->Y, rq->W);
+			m_SurfaceOrientation = q;
+		}
+	}
+	catch (Platform::Exception^ exception) // Do nothing if the orientation reading failed
+	{
+		m_pOriSensor = Windows::Devices::Sensors::OrientationSensor::GetDefault();
 	}
 	//Panel::Update(elapsedTime);
 }
@@ -39,11 +47,11 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::Render()
 	ClearPanel(DirectX::Colors::Orange);
 
 	//XMMATRIX world = XMMatrixIdentity();
-	XMVECTOR campos = XMVectorSet(0,1,10,0);
+	XMVECTOR campos = m_SurfacePositon;
 
 	XMVECTOR forward = XMVector3Rotate(g_XMNegIdentityR2.v, m_SurfaceOrientation);
 	XMVECTOR up = XMVector3Rotate(g_XMIdentityR1.v, m_SurfaceOrientation);
-	campos += forward * CameraDepth;
+	//campos += forward * CameraDepth;
 
 	XMMATRIX view = XMMatrixLookToRH(campos, forward, up);
 
