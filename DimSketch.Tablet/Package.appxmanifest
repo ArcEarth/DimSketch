@@ -7,20 +7,20 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="f38a2ba2-bd57-4462-8849-d31de5f1084f"
+    Name="90611cd5-e117-4237-a98a-f6d49c97fd26"
     Publisher="CN=yupeng"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="f38a2ba2-bd57-4462-8849-d31de5f1084f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="90611cd5-e117-4237-a98a-f6d49c97fd26" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>DimSketch</DisplayName>
+    <DisplayName>DimSketch.Tablet</DisplayName>
     <PublisherDisplayName>yupeng</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10069.0" MaxVersionTested="10.0.10069.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Resources>
@@ -30,13 +30,14 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="DimSketch.App">
+      EntryPoint="DimSketch.Tablet.App">
       <uap:VisualElements
-        DisplayName="DimSketch"
-        Square150x150Logo="Assets\Logo.png"
-        Square44x44Logo="Assets\SmallLogo.png"
-        Description="DimSketch"
-        BackgroundColor="#464646">
+        DisplayName="DimSketch.Tablet"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
+        Description="DimSketch.Tablet"
+        BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

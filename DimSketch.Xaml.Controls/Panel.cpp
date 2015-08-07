@@ -154,18 +154,18 @@ void Panel::CreateSizeDependentResources()
     DirectXPanel::CreateSizeDependentResources();
 
     // Create a render target view of the swap chain back buffer.
-	_backBuffer = RenderTargetTexture2D(_swapChain.Get());
+	_backBuffer = RenderableTexture2D(_swapChain.Get());
 
     // Create depth/stencil buffer descriptor.
 	auto depthBuffer = DepthStencilBuffer(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_D24_UNORM_S8_UINT,_muiltiSamplesCount,0);
 
-	RenderTargetTexture2D colorBuffer;
+	RenderableTexture2D colorBuffer;
 
 	// if not MSAA, direct render to back buffer
 	if (_muiltiSamplesCount == 1)
 		colorBuffer = _backBuffer;
 	else
-		colorBuffer = RenderTargetTexture2D(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_B8G8R8A8_UNORM, _muiltiSamplesCount, 0);
+		colorBuffer = RenderableTexture2D(_d3dDevice.Get(), (int)_renderTargetWidth, (int)_renderTargetHeight, DXGI_FORMAT_B8G8R8A8_UNORM, _muiltiSamplesCount, 0);
 
 	CD3D11_VIEWPORT viewPort(.0f,.0f, _renderTargetWidth, _renderTargetHeight);
 	_renderTarget = RenderTarget(colorBuffer, depthBuffer, viewPort);

@@ -9,29 +9,29 @@
       <string>d:\user\yupeng\documents\github\dimsketch\dimsketch\mainpage.xaml.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Panel.cpp</string>
-      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Panel.h</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DirectXPanel.cpp</string>
       <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DirectXPanel.h</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Textures.cpp</string>
-      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Textures.h</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DXGIFormatHelper.cpp</string>
       <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DXGIFormatHelper.h</string>
     </ArrayOfString>
     <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Textures.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Textures.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Panel.cpp</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\Panel.h</string>
+    </ArrayOfString>
+    <ArrayOfString>
       <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\DirectXHelper.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\SDKs\DirectXTK\Inc\WICTextureLoader.h</string>
+      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\StepTimer.h</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>D:\User\Yupeng\Documents\GitHub\DimSketch\DimSketch.Xaml.Controls\StepTimer.h</string>
+      <string>Object Browser</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
   <ArrayOfArrayOfString>

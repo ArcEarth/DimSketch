@@ -98,4 +98,7 @@
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DirectXMathExtend.inl" />
+  </ItemGroup>
 </Project>

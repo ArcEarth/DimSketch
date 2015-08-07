@@ -63,7 +63,7 @@ namespace DimSketch {
 
                 protected private:
                     // final stage render objects
-					RenderTargetTexture2D								_backBuffer;
+					RenderableTexture2D									_backBuffer;
 
                 private:
                     BOOL                                                _loadingComplete;
