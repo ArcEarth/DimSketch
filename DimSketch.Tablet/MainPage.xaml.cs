@@ -27,9 +27,17 @@ namespace DimSketch
         {
             this.InitializeComponent();
             SketchCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
+            SketchCanvas.InkPresenter.StrokesCollected += InkPresenter_StrokesCollected;
+            
             volumePanel.Start();
+
             //var panel = new DimSketch.Xaml.Controls.TestingPanel();
             //RootGrid.Children.Insert(0,panel);
+        }
+
+        private void InkPresenter_StrokesCollected(Windows.UI.Input.Inking.InkPresenter sender, Windows.UI.Input.Inking.InkStrokesCollectedEventArgs args)
+        {
+            volumePanel.AddDrawStrokes(args.Strokes);
         }
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)

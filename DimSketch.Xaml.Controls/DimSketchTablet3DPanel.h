@@ -3,6 +3,9 @@
 #include "Panel.h"
 #include "PrimitiveVisualizer.h"
 
+using namespace Windows::Foundation::Collections;
+using namespace Windows::UI::Input::Inking;
+
 namespace DimSketch {
 	namespace Xaml {
 		namespace Controls {
@@ -32,6 +35,8 @@ namespace DimSketch {
 							m_ZSliderDepth = value;
 						}
 					}
+
+					virtual bool AddDrawStroke(IVectorView<InkStroke^>^ strokes);
 
 				protected private:
 					virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler^ PropertyChanged;

@@ -18,6 +18,14 @@ DimSketch::Xaml::Controls::Tablet3DViewPanel::Tablet3DViewPanel()
 	m_pOriSensor = Windows::Devices::Sensors::OrientationSensor::GetDefault();
 }
 
+bool DimSketch::Xaml::Controls::Tablet3DViewPanel::AddDrawStroke(IVectorView<InkStroke^>^ strokes)
+{
+	for each (auto stroke in strokes)
+	{
+	}
+	return true;
+}
+
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::NotifyPropertyChanged(Platform::String ^ prop)
 {
 
