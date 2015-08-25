@@ -36,7 +36,7 @@ namespace DimSketch {
 						}
 					}
 
-					virtual bool AddDrawStroke(IVectorView<InkStroke^>^ strokes);
+					bool AddDrawStroke(IVectorView<InkStroke^>^ strokes);
 
 				protected private:
 					virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler^ PropertyChanged;
@@ -57,13 +57,18 @@ namespace DimSketch {
 					~Tablet3DViewPanel();
 
 					void DrawAxis();
+					void DrawStrokes();
 				private:
 					Windows::Devices::Sensors::OrientationSensor^	m_pOriSensor;
 					std::shared_ptr<DirectX::PrimitveDrawer>		m_pDrawer;
+					std::vector<std::vector<Vector3>>				m_Strokes;
 
+					float											m_SliceDepthScreenSpace;
 					float											m_ZSliderDepth;
+					DirectX::Vector2								m_ViewPortSize;
 					DirectX::Vector3								m_SurfacePositon;
 					DirectX::Quaternion								m_SurfaceOrientation;
+					DirectX::Matrix4x4								m_ScreenToWorld;
 					DirectX::Matrix4x4								m_View;
 					DirectX::Matrix4x4								m_Projection;
 				};

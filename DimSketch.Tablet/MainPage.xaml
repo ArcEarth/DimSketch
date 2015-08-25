@@ -8,10 +8,10 @@
     xmlns:controls="using:DimSketch.Xaml.Controls"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" PointerWheelChanged="RootGrid_PointerWheelChanged">
         <controls:Tablet3DViewPanel x:Name="volumePanel"/>
         <InkCanvas x:Name="SketchCanvas"></InkCanvas>
-        <Slider x:Name="ZSlider" Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10" SmallChange="0.01" LargeChange="0.1" Padding="-6,0" Maximum="10" Minimum="1" Value="5" ValueChanged="Slider_ValueChanged"></Slider>
+        <Slider x:Name="ZSlider" Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10" SmallChange="0.01" LargeChange="0.1" Padding="-6,0" Maximum="5" Minimum="-5" Value="0" ValueChanged="Slider_ValueChanged" SnapsTo="StepValues" StepFrequency="0.01" TickFrequency="1" TickPlacement="Inline"></Slider>
         <Button Padding="5" VerticalAlignment="Center" Background="{ThemeResource SystemControlForegroundAccentBrush}" Foreground="{ThemeResource SystemControlBackgroundAltHighBrush}" Width="50" Height="50">
             <Button.Template>
                 <ControlTemplate TargetType="Button">

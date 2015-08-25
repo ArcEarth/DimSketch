@@ -100,5 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXMathExtend.inl" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

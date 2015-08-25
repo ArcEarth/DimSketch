@@ -37,12 +37,24 @@ namespace DimSketch
 
         private void InkPresenter_StrokesCollected(Windows.UI.Input.Inking.InkPresenter sender, Windows.UI.Input.Inking.InkStrokesCollectedEventArgs args)
         {
-            volumePanel.AddDrawStrokes(args.Strokes);
+            volumePanel.AddDrawStroke(args.Strokes);
+            sender.StrokeContainer.Clear();
         }
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             volumePanel.CameraDepth = (float)e.NewValue;
+        }
+
+        private void RootGrid_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                var delta = e.GetCurrentPoint(this).Properties.MouseWheelDelta;
+                ZSlider.Value += delta * 0.002f;
+                //volumePanel.CameraDepth += delta * 0.002f;
+                // as Windows.Devices.Input.MouseDevice
+            }
         }
     }
 }
