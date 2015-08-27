@@ -21,7 +21,7 @@ DimSketch::Xaml::Controls::Tablet3DViewPanel::Tablet3DViewPanel()
 
 bool DimSketch::Xaml::Controls::Tablet3DViewPanel::AddDrawStroke(IVectorView<InkStroke^>^ strokes)
 {
-	XMMATRIX s2w = m_ScreenToWorld.Load();
+	XMMATRIX s2w = m_ScreenToWorld;
 	for each (auto stroke in strokes)
 	{
 		auto strokps = stroke->GetInkPoints();
@@ -86,7 +86,7 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::Update(double elapsedTime)
 	XMMATRIX view = XMMatrixLookToRH(campos, forward, up);
 	m_View = view;
 
-	XMMATRIX viewProj = XMMatrixMultiply(view, m_Projection.Load());
+	XMMATRIX viewProj = XMMatrixMultiply(view, m_Projection);
 	XMVECTOR det;
 	m_ScreenToWorld = XMMatrixInverse(&det,viewProj);
 
@@ -209,10 +209,10 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::DrawStrokes()
 	//m_pDrawer->GetDeviceContext()->RSSetState(m_pDrawer->GetStates()->CullClockwise());
 	for (auto& curve : m_Strokes)
 	{
-		XMVECTOR v0 = curve[0].Load();
+		XMVECTOR v0 = curve[0];
 		for (int i = 1; i < curve.size() - 1; i++)
 		{
-			m_pDrawer->DrawTriangle(v0,curve[i].Load(), curve[i + 1].Load(), Colors::Azure);
+			m_pDrawer->DrawTriangle(v0,curve[i], curve[i + 1], Colors::Azure);
 		}
 	}
 	m_pDrawer->End();
@@ -222,7 +222,7 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::DrawStrokes()
 	{
 		for (int i = 0; i < curve.size() ; i++)
 		{
-			m_pDrawer->DrawLine(curve[i].Load(), curve[(i + 1)% curve.size()].Load(), Colors::LimeGreen);
+			m_pDrawer->DrawLine(curve[i], curve[(i + 1)% curve.size()], Colors::LimeGreen);
 		}
 	}
 	m_pDrawer->End();

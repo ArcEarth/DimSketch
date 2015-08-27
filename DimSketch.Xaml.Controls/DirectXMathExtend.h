@@ -1286,6 +1286,73 @@ namespace DirectX
 	// No Matrix Multiply inside, significant faster than affine transform
 	inline XMMATRIX XM_CALLCONV XMMatrixRigidTransform(FXMVECTOR RotationQuaterion, FXMVECTOR Translation);
 
+#pragma region XMLoadStoreA Helpers
+	inline XMVECTOR XMLoad(const SimpleMath::Vector3& src)
+	{
+		return XMLoadFloat3(&src);
+	}
+	inline XMVECTOR XMLoadA(const SimpleMath::Vector3& src)
+	{
+		return XMLoadFloat3A(reinterpret_cast<const XMFLOAT3A*>(&src));
+	}
+	inline void XM_CALLCONV XMStore(SimpleMath::Vector3& dest, FXMVECTOR v)
+	{
+		XMStoreFloat3(&dest, v);
+	}
+	inline void XM_CALLCONV XMStoreA(SimpleMath::Vector3& dest, FXMVECTOR v)
+	{
+		XMStoreFloat3A(reinterpret_cast<XMFLOAT3A*>(&dest), v);
+	}
+	inline XMVECTOR XMLoad(const SimpleMath::Vector4& src)
+	{
+		return XMLoadFloat4(&src);
+	}
+	inline XMVECTOR XMLoadA(const SimpleMath::Vector4& src)
+	{
+		return XMLoadFloat4A(reinterpret_cast<const XMFLOAT4A*>(&src));
+	}
+	inline void XM_CALLCONV XMStore(SimpleMath::Vector4& dest, FXMVECTOR v)
+	{
+		XMStoreFloat4(&dest, v);
+	}
+	inline void XM_CALLCONV XMStoreA(SimpleMath::Vector4& dest, FXMVECTOR v)
+	{
+		XMStoreFloat4A(reinterpret_cast<XMFLOAT4A*>(&dest), v);
+	}
+	inline XMVECTOR XMLoad(const SimpleMath::Quaternion& src)
+	{
+		return XMLoadFloat4(&src);
+	}
+	inline XMVECTOR XMLoadA(const SimpleMath::Quaternion& src)
+	{
+		return XMLoadFloat4A(reinterpret_cast<const XMFLOAT4A*>(&src));
+	}
+	inline void XM_CALLCONV XMStore(SimpleMath::Quaternion& dest, FXMVECTOR v)
+	{
+		XMStoreFloat4(&dest, v);
+	}
+	inline void XM_CALLCONV XMStoreA(SimpleMath::Quaternion& dest, FXMVECTOR v)
+	{
+		XMStoreFloat4A(reinterpret_cast<XMFLOAT4A*>(&dest), v);
+	}
+	inline XMMATRIX XMLoad(const SimpleMath::Matrix& src)
+	{
+		return XMLoadFloat4x4(&src);
+	}
+	inline XMMATRIX XMLoadA(const SimpleMath::Matrix& src)
+	{
+		return XMLoadFloat4x4A(reinterpret_cast<const XMFLOAT4X4A*>(&src));
+	}
+	inline void XM_CALLCONV XMStore(SimpleMath::Matrix& dest, FXMMATRIX m)
+	{
+		XMStoreFloat4x4(&dest, m);
+	}
+	inline void XM_CALLCONV XMStoreA(SimpleMath::Matrix& dest, FXMMATRIX m)
+	{
+		XMStoreFloat4x4A(reinterpret_cast<XMFLOAT4X4A*>(&dest), m);
+	}
+#pragma endregion
+
 	XM_ALIGNATTR
 	struct RotationTransform : public DirectX::AlignedNew<XMVECTOR>
 	{
@@ -1294,7 +1361,7 @@ namespace DirectX
 		// Extract the Matrix Representation of this rigid transform
 		inline XMMATRIX TransformMatrix() const
 		{
-			XMMATRIX M = XMMatrixRotationQuaternion(Rotation.LoadA());
+			XMMATRIX M = XMMatrixRotationQuaternion(XMLoadFloat4A(reinterpret_cast<const XMFLOAT4A*>(&Rotation)));
 			return M;
 		}
 
@@ -1307,14 +1374,16 @@ namespace DirectX
 
 		operator XMVECTOR() const
 		{
-			return Rotation.LoadA();
+			return XMLoadFloat4A(reinterpret_cast<const XMFLOAT4A*>(&Rotation));
 		}
 
 		inline void XM_CALLCONV SetFromTransformMatrix(FXMMATRIX transform)
 		{
 			XMVECTOR scl, rot, tra;
 			XMMatrixDecompose(&scl, &rot, &tra, transform);
-			Rotation.StoreA(rot);
+			//XMLoadFloat4A(reinterpret_cast<const XMFLOAT4A*>(&Rotation))
+			XMStoreFloat4A(reinterpret_cast<XMFLOAT4A*>(&Rotation), rot);
+			//Rotation.StoreA(rot);
 		}
 	};
 	XM_ALIGNATTR
@@ -1326,20 +1395,21 @@ namespace DirectX
 		// Extract the Matrix Representation of this rigid transform
 		inline XMMATRIX TransformMatrix() const
 		{
-			XMMATRIX M = XMMatrixTranslationFromVector(Translation.LoadA());
+			XMMATRIX M = XMMatrixTranslationFromVector(XMLoadFloat3A(reinterpret_cast<const XMFLOAT3A*>(&Translation)));
 			return M;
 		}
 
 		operator XMVECTOR() const
 		{
-			return Translation.LoadA();
+			return XMLoadFloat3A(reinterpret_cast<const XMFLOAT3A*>(&Translation));
 		}
 
 		inline void XM_CALLCONV SetFromTransformMatrix(FXMMATRIX transform)
 		{
 			XMVECTOR scl, rot, tra;
 			XMMatrixDecompose(&scl, &rot, &tra, transform);
-			Translation.StoreA(tra);
+			XMStoreFloat3A(reinterpret_cast<XMFLOAT3A*>(&Translation),tra);
+			//Translation.StoreA(tra);
 		}
 	};
 	XM_ALIGNATTR
@@ -1351,20 +1421,20 @@ namespace DirectX
 		// Extract the Matrix Representation of this rigid transform
 		inline XMMATRIX TransformMatrix() const
 		{
-			XMMATRIX M = XMMatrixScalingFromVector(Scale.LoadA());
+			XMMATRIX M = XMMatrixScalingFromVector(XMLoadA(Scale));
 			return M;
 		}
 
 		operator XMVECTOR() const
 		{
-			return Scale.LoadA();
+			return XMLoadA(Scale);
 		}
 
 		inline void XM_CALLCONV SetFromTransformMatrix(FXMMATRIX transform)
 		{
 			XMVECTOR scl, rot, tra;
 			XMMatrixDecompose(&scl, &rot, &tra, transform);
-			Scale.StoreA(scl);
+			XMStoreA(Scale,scl);
 		}
 	};
 
@@ -1414,29 +1484,29 @@ namespace DirectX
 		RigidTransform& operator *=(const RigidTransform& global)
 		{
 			auto& local = *this;
-			XMVECTOR ParQ = global.Rotation.LoadA();
-			XMVECTOR Q = XMQuaternionMultiply(local.Rotation.LoadA(), ParQ);
-			this->Rotation.StoreA(Q);
+			XMVECTOR ParQ = XMLoadA(global.Rotation);
+			XMVECTOR Q = XMQuaternionMultiply(XMLoadA(local.Rotation), ParQ);
+			XMStoreA(this->Rotation,Q);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V = XMVector3Rotate(V, ParQ);
-			V = XMVectorAdd(V, global.Translation.LoadA());
+			V = XMVectorAdd(V, XMLoadA(global.Translation));
 
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 		}
 
 		template <>
 		RigidTransform& operator *=(const Quaternion& rot)
 		{
 			auto& local = *this;
-			XMVECTOR ParQ = rot.Load();
-			XMVECTOR Q = XMQuaternionMultiply(local.Rotation.LoadA(), ParQ);
-			this->Rotation.StoreA(Q);
+			XMVECTOR ParQ = XMLoad(rot);
+			XMVECTOR Q = XMQuaternionMultiply(XMLoadA(local.Rotation), ParQ);
+			XMStoreA(this->Rotation,Q);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V = XMVector3Rotate(V, ParQ);
 
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 		}
 
 		template <>
@@ -1525,19 +1595,19 @@ namespace DirectX
 		ScaledRigidTransform& operator *=(const ScaledRigidTransform& global)
 		{
 			auto& local = *this;
-			XMVECTOR ParQ = global.Rotation.LoadA();
-			XMVECTOR Q = XMQuaternionMultiply(local.Rotation.LoadA(), ParQ);
-			XMVECTOR ParS = global.Scale.LoadA();
-			XMVECTOR S = ParS*local.Scale.LoadA();
-			this->Rotation.StoreA(Q);
-			this->Scale.StoreA(S);
+			XMVECTOR ParQ = XMLoadA(global.Rotation);
+			XMVECTOR Q = XMQuaternionMultiply(XMLoadA(local.Rotation), ParQ);
+			XMVECTOR ParS = XMLoadA(global.Scale);
+			XMVECTOR S = ParS*XMLoadA(local.Scale);
+			XMStoreA(this->Rotation,Q);
+			XMStoreA(this->Scale,S);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V *= ParS;
 			V = XMVector3Rotate(V, ParQ);
-			V = XMVectorAdd(V, global.Translation.LoadA());
+			V = XMVectorAdd(V, XMLoadA(global.Translation));
 
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 			return *this;
 		}
 
@@ -1545,13 +1615,13 @@ namespace DirectX
 		ScaledRigidTransform& operator *=(const ScaleTransform& global)
 		{
 			auto& local = *this;
-			XMVECTOR ParS = global.Scale.LoadA();
-			XMVECTOR S = ParS * local.Scale.LoadA();
-			this->Scale.StoreA(S);
+			XMVECTOR ParS = XMLoadA(global.Scale);
+			XMVECTOR S = ParS * XMLoadA(local.Scale);
+			XMStoreA(this->Scale,S);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V *= ParS;
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 			return *this;
 		}
 
@@ -1561,15 +1631,15 @@ namespace DirectX
 		ScaledRigidTransform& operator *=(const RigidTransform& global)
 		{
 			auto& local = *this;
-			XMVECTOR ParQ = global.Rotation.LoadA();
-			XMVECTOR Q = XMQuaternionMultiply(local.Rotation.LoadA(), ParQ);
-			this->Rotation.StoreA(Q);
+			XMVECTOR ParQ = XMLoadA(global.Rotation);
+			XMVECTOR Q = XMQuaternionMultiply(XMLoadA(local.Rotation), ParQ);
+			XMStoreA(this->Rotation,Q);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V = XMVector3Rotate(V, ParQ);
-			V = XMVectorAdd(V, global.Translation.LoadA());
+			V = XMVectorAdd(V, XMLoadA(global.Translation));
 
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 			return *this;
 		}
 
@@ -1577,14 +1647,14 @@ namespace DirectX
 		ScaledRigidTransform& operator *=(const Quaternion& globalRot)
 		{
 			auto& local = *this;
-			XMVECTOR ParQ = globalRot.Load();
-			XMVECTOR Q = XMQuaternionMultiply(local.Rotation.LoadA(), ParQ);
-			this->Rotation.StoreA(Q);
+			XMVECTOR ParQ = XMLoad(globalRot);
+			XMVECTOR Q = XMQuaternionMultiply(XMLoadA(local.Rotation), ParQ);
+			XMStoreA(this->Rotation,Q);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V = XMVector3Rotate(V, ParQ);
 
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 			return *this;
 		}
 
@@ -1592,14 +1662,14 @@ namespace DirectX
 		ScaledRigidTransform& operator *=(const RotationTransform& global)
 		{
 			auto& local = *this;
-			XMVECTOR ParQ = global.Rotation.LoadA();
-			XMVECTOR Q = XMQuaternionMultiply(local.Rotation.LoadA(), ParQ);
-			this->Rotation.StoreA(Q);
+			XMVECTOR ParQ = XMLoadA(global.Rotation);
+			XMVECTOR Q = XMQuaternionMultiply(XMLoadA(local.Rotation), ParQ);
+			XMStoreA(this->Rotation,Q);
 
-			XMVECTOR V = local.Translation.LoadA();
+			XMVECTOR V = XMLoadA(local.Translation);
 			V = XMVector3Rotate(V, ParQ);
 
-			this->Translation.StoreA(V);
+			XMStoreA(this->Translation,V);
 			return *this;
 		}
 
