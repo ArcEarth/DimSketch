@@ -56,5 +56,21 @@ namespace DimSketch
                 // as Windows.Devices.Input.MouseDevice
             }
         }
+
+        private void CameraButton_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                volumePanel.StartCameraControl();
+            }
+        }
+
+        private void CameraButton_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                volumePanel.StopCameraControl();
+            }
+        }
     }
 }

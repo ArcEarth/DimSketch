@@ -16,6 +16,8 @@ DimSketch::Xaml::Controls::Tablet3DViewPanel::Tablet3DViewPanel()
 	: Panel()
 {
 	m_SurfacePositon = Vector3(.0f, 1.5f, 1.5f);
+	m_IntialOrientation = Quaternion::Identity;
+	m_SurfaceInitialOrientation = Quaternion::Identity;
 	m_pOriSensor = Windows::Devices::Sensors::OrientationSensor::GetDefault();
 }
 
@@ -54,6 +56,29 @@ bool DimSketch::Xaml::Controls::Tablet3DViewPanel::AddDrawStroke(IVectorView<Ink
 	return true;
 }
 
+void DimSketch::Xaml::Controls::Tablet3DViewPanel::StartCameraControl()
+{
+	auto sq = m_pOriSensor->GetCurrentReading()->Quaternion;
+	m_IntialOrientation = Quaternion(sq->X, sq->Z, -sq->Y, sq->W);
+	m_SurfaceInitialOrientation = m_SurfaceOrientation;
+	m_State = ControlState::CameraControl;
+}
+
+void DimSketch::Xaml::Controls::Tablet3DViewPanel::StopCameraControl()
+{
+	m_State = ControlState::Default;
+}
+
+void DimSketch::Xaml::Controls::Tablet3DViewPanel::StartExtrusion()
+{
+	m_State = ControlState::Extrusion;
+}
+
+void DimSketch::Xaml::Controls::Tablet3DViewPanel::StopExtrusion()
+{
+	m_State = ControlState::Default;
+}
+
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::NotifyPropertyChanged(Platform::String ^ prop)
 {
 
@@ -61,13 +86,17 @@ void DimSketch::Xaml::Controls::Tablet3DViewPanel::NotifyPropertyChanged(Platfor
 
 void DimSketch::Xaml::Controls::Tablet3DViewPanel::Update(double elapsedTime)
 {
-	if (m_pOriSensor)
+	if (m_State == ControlState::CameraControl && m_pOriSensor)
 	{
 		try
 		{
 			auto reading = m_pOriSensor->GetCurrentReading();
 			auto rq = reading->Quaternion;
-			DirectX::Quaternion q(rq->X, rq->Z, -rq->Y, rq->W);
+			XMVECTOR q = XMVectorSet(rq->X, rq->Z, -rq->Y, rq->W);
+			q = XMQuaternionMultiply(
+				XMQuaternionInverse(XMLoad(m_IntialOrientation)), 
+				q);
+			q = XMQuaternionMultiply(q, m_SurfaceInitialOrientation);
 			m_SurfaceOrientation = q;
 		}
 		catch (Platform::Exception^ exception) // Do nothing if the orientation reading failed

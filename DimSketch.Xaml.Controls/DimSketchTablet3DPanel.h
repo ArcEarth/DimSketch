@@ -22,6 +22,15 @@ namespace DimSketch {
 				public ref class Tablet3DViewPanel sealed
 					: public Panel
 				{
+					enum class ControlState
+					{
+						Default,
+						CameraControl,
+						Extrusion,
+						Revoler,
+						Folding,
+					};
+
 				public:
 					Tablet3DViewPanel();
 
@@ -37,6 +46,12 @@ namespace DimSketch {
 					}
 
 					bool AddDrawStroke(IVectorView<InkStroke^>^ strokes);
+
+					void StartCameraControl();
+					void StopCameraControl();
+
+					void StartExtrusion();
+					void StopExtrusion();
 
 				protected private:
 					virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler^ PropertyChanged;
@@ -62,7 +77,9 @@ namespace DimSketch {
 					Windows::Devices::Sensors::OrientationSensor^	m_pOriSensor;
 					std::shared_ptr<DirectX::PrimitveDrawer>		m_pDrawer;
 					std::vector<std::vector<Vector3>>				m_Strokes;
-
+					Quaternion										m_IntialOrientation;
+					Quaternion										m_SurfaceInitialOrientation;
+					ControlState									m_State;
 					float											m_SliceDepthScreenSpace;
 					float											m_ZSliderDepth;
 					DirectX::Vector2								m_ViewPortSize;

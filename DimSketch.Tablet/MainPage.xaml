@@ -12,15 +12,19 @@
         <controls:Tablet3DViewPanel x:Name="volumePanel"/>
         <InkCanvas x:Name="SketchCanvas"></InkCanvas>
         <Slider x:Name="ZSlider" Orientation="Vertical" HorizontalAlignment="Right" Margin="0,10" SmallChange="0.01" LargeChange="0.1" Padding="-6,0" Maximum="5" Minimum="-5" Value="0" ValueChanged="Slider_ValueChanged" SnapsTo="StepValues" StepFrequency="0.01" TickFrequency="1" TickPlacement="Inline"></Slider>
-        <Button Padding="5" VerticalAlignment="Center" Background="{ThemeResource SystemControlForegroundAccentBrush}" Foreground="{ThemeResource SystemControlBackgroundAltHighBrush}" Width="50" Height="50">
-            <Button.Template>
+        <Border VerticalAlignment="Center" HorizontalAlignment="Left" PointerPressed="CameraButton_PointerPressed" PointerReleased="CameraButton_PointerReleased" Background="{ThemeResource SystemControlForegroundAccentBrush}"  Width="60" Height="60">
+            <SymbolIcon Symbol="Camera" Foreground="{ThemeResource SystemControlBackgroundAltHighBrush}"></SymbolIcon>
+            <!--<Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid Margin="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Ellipse Fill="{TemplateBinding Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="{TemplateBinding BorderBrush}" ></Ellipse>
                         <SymbolIcon Symbol="Camera" Foreground="{TemplateBinding Foreground}"></SymbolIcon>
                     </Grid>
                 </ControlTemplate>
-            </Button.Template>
-        </Button>
+            </Button.Template>-->
+        </Border>
+        <Border VerticalAlignment="Center" Margin="0,160,0,0" HorizontalAlignment="Left" PointerPressed="CameraButton_PointerPressed" PointerReleased="CameraButton_PointerReleased" Background="{ThemeResource SystemControlForegroundAccentBrush}"  Width="60" Height="60">
+            <SymbolIcon Foreground="{ThemeResource SystemControlBackgroundAltHighBrush}" Symbol="NewWindow"/>
+        </Border>
     </Grid>
 </Page>
