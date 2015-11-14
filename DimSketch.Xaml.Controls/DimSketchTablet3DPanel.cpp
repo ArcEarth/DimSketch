@@ -3,6 +3,9 @@
 #include "DirectXHelper.h"
 #include <DirectXColors.h>
 #include <iostream>
+#include <CGAL\Point_3.h>
+#include <CGAL\Polyhedron_3.h>
+#include <CGAL\Simple_cartesian.h>
 
 using namespace DimSketch::Xaml::Controls::Base;
 
@@ -11,6 +14,13 @@ using namespace DirectX;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Data;
+
+typedef CGAL::Simple_cartesian<double>               Kernel;
+typedef Kernel::Point_3                              Point_3;
+typedef CGAL::Polyhedron_3<Kernel>                   Polyhedron;
+typedef Polyhedron::Facet_iterator                   Facet_iterator;
+typedef Polyhedron::Halfedge_around_facet_circulator Halfedge_facet_circulator;
+
 
 DimSketch::Xaml::Controls::Tablet3DViewPanel::Tablet3DViewPanel()
 	: Panel()
